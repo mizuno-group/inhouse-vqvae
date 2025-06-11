@@ -3,23 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset
 
-class DataSet(Dataset):
-    def __init__(self, data, transform=False):
-        self.X = data[0]
-        self.y = data[1]
-        self.transform = transform
-
-    def __len__(self):
-        return len(self.X)
-
-    def __getitem__(self, index):
-        img = self.X[index].view(28, 28)
-        label = self.y[index]
-        if self.transform:
-            img = transforms.ToPILImage()(img)
-            img = self.transform(img)
-        return img, label
-
 class ResidualLayer(nn.Module):
     def __init__(self, in_dim, h_dim, res_h_dim):
         super(ResidualLayer, self).__init__()

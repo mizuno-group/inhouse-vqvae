@@ -9,6 +9,7 @@ device = 'cuda' if torch.cuda.is_available else 'cpu'
 # 保存されたモデルのファイルパス
 model_path = "VQVAE_local.pth"
 # VQVAEモデルのインスタンスの作成
+
 model = VQVAE(128, 32, 2, 512, 64, .25)
 # 保存されたモデルのパラメータをロード
 checkpoint = torch.load(model_path)

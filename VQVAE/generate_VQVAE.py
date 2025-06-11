@@ -1,0 +1,40 @@
+import random  # ランダムな整数を生成するためのライブラリのインポート
+
+# 保存されたモデルのファイルパス
+model_path = "VQVAE_local.pth"
+# VQVAEモデルのインスタンスの作成
+model = VQVAE(128, 32, 2, 512, 64, .25)
+# 保存されたモデルのパラメータをロード
+checkpoint = torch.load(model_path)
+model.load_state_dict(checkpoint['param'])
+# モデルを適切なデバイス（GPUまたはCPU）に移動
+model = model.to(device)
+# テストデータローダーから最初のバッチを取得し、適切なデバイスに移動
+img_batch = next(iter(testloader))[0].to(device)
+
+# バッチからランダムにインデックスを選ぶ
+random_index = random.randint(0, img_batch.size(0) - 1)
+
+# 選ばれた画像をバッチに変換（次元を追加）
+img = img_batch[random_index].unsqueeze(0)
+# モデルを通じて画像をエンコードし、デコード
+embedding_loss, x_hat = model(img)
+# 出力画像をCPUに移動し、NumPy配列に変換
+pred = x_hat[0].to('cpu').detach().numpy().reshape(28, 28, 1)
+# 元の画像をCPUに移動し、NumPy配列に変換
+origin = img[0].to('cpu').detach().numpy().reshape(28, 28, 1)
+
+# 元の画像を表示
+plt.subplot(211)
+plt.imshow(origin, cmap="gray")
+plt.xticks([])  # x軸の目盛りを非表示
+plt.yticks([])  # y軸の目盛りを非表示
+plt.text(x=3, y=2, s="original image", c="red")  # テキストラベルの追加
+
+# 出力画像を表示
+plt.subplot(212)
+plt.imshow(pred, cmap="gray")
+plt.text(x=3, y=2, s="output image", c="red")  # テキストラベルの追加
+plt.xticks([])  # x軸の目盛りを非表示
+plt.yticks([])  # y軸の目盛りを非表示
+plt.show()  # グラフの表示

@@ -1,4 +1,10 @@
+import torch
+import matplotlib.pyplot as plt
 import random  # ランダムな整数を生成するためのライブラリのインポート
+from src.model import VQVAE
+from src.data_handler import get_mnist_dataloaders
+
+device = 'cuda' if torch.cuda.is_available else 'cpu'
 
 # 保存されたモデルのファイルパス
 model_path = "VQVAE_local.pth"
@@ -9,6 +15,8 @@ checkpoint = torch.load(model_path)
 model.load_state_dict(checkpoint['param'])
 # モデルを適切なデバイス（GPUまたはCPU）に移動
 model = model.to(device)
+
+trainloader, testloader = get_mnist_dataloaders(256)
 # テストデータローダーから最初のバッチを取得し、適切なデバイスに移動
 img_batch = next(iter(testloader))[0].to(device)
 
@@ -37,4 +45,4 @@ plt.imshow(pred, cmap="gray")
 plt.text(x=3, y=2, s="output image", c="red")  # テキストラベルの追加
 plt.xticks([])  # x軸の目盛りを非表示
 plt.yticks([])  # y軸の目盛りを非表示
-plt.show()  # グラフの表示
+plt.savefig("/workspace/inhouse-vqvae/VQVAE/results/generate.png")

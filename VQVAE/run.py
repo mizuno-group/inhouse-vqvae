@@ -2,6 +2,7 @@ import torch
 import torch.nn.functional as F
 from torch import optim, nn
 import matplotlib.pyplot as plt
+
 from src.model import VQVAE
 from src.trainer import Trainer
 from src.data_handler import get_mnist_dataloaders, DataSet  # DataSet もこちらで定義
@@ -23,6 +24,7 @@ run = wandb.init(
         "BSZ": 256,
     },
 )
+
 
 # 設定
 device = 'cuda' if torch.cuda.is_available() else 'cpu'

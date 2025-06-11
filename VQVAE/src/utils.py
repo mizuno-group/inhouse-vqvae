@@ -6,4 +6,4 @@ def plot_loss(train_loss_log, test_loss_log):
     plt.plot(test_loss_log, label='test_loss')
     plt.grid(axis='y')
     plt.legend()
-    plt.savefig("/workspace/Practice_Notebook/VQVAE/results/test.png")
+    plt.savefig("/workspace/inhouse-vqvae/VQVAE/results/test.png")

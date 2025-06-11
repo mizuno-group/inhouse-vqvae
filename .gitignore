@@ -192,3 +192,12 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# data directory
+/VQVAE/data/
+
+# wandb directory
+/wandb/
+
+# .pth file
+*.pth

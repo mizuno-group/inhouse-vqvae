@@ -27,7 +27,8 @@ random_index = random.randint(0, img_batch.size(0) - 1)
 # 選ばれた画像をバッチに変換（次元を追加）
 img = img_batch[random_index].unsqueeze(0)
 # モデルを通じて画像をエンコードし、デコード
-embedding_loss, x_hat = model(img)
+embedding_loss, x_hat, idx = model(img)
+print(idx.size())
 # 出力画像をCPUに移動し、NumPy配列に変換
 pred = x_hat[0].to('cpu').detach().numpy().reshape(28, 28, 1)
 # 元の画像をCPUに移動し、NumPy配列に変換

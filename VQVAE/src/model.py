@@ -100,6 +100,7 @@ class VQVAE(nn.Module):
     def forward(self, x):
         z_e = self.encoder(x)
         z_e = self.pre_quantization_conv(z_e)
-        embedding_loss, z_q, _, _ = self.vector_quantization(z_e)
+        embedding_loss, z_q, _, idx = self.vector_quantization(z_e)
         x_hat = self.decoder(z_q)
-        return embedding_loss, x_hat
+        return embedding_loss, x_hat, idx
+

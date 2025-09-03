@@ -26,7 +26,7 @@ class Trainer:
             for img, _ in self.train_loader:
                 img = img.to(self.device, dtype=torch.float)
                 self.optimizer.zero_grad()
-                embedding_loss, x_hat = self.model(img)
+                embedding_loss, x_hat, _ = self.model(img)
                 recon_loss = nn.MSELoss()(x_hat, img)
                 loss = recon_loss + embedding_loss
                 train_loss += loss.item()
@@ -38,7 +38,7 @@ class Trainer:
             with torch.no_grad():
                 for img_t, _ in self.test_loader:
                     img = img_t.to(self.device, dtype=torch.float)
-                    embedding_loss, x_hat = self.model(img)
+                    embedding_loss, x_hat, _ = self.model(img)
                     recon_loss = nn.MSELoss()(x_hat, img)
                     loss = recon_loss + embedding_loss
                     test_loss += loss.item()
